@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ user.username }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-avatar class="profile-pic" (click)="changeImage()">
+        <img src="{{imagePath}}">
+      </ion-avatar>
+      <br>
+      <ion-card-title style="text-align:center;">{{ user.username }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-icon name="person"></ion-icon> &nbsp;&nbsp;{{ user.name }}
+        </ion-item>
+        <ion-item>
+          <ion-icon name="mail"></ion-icon> &nbsp;&nbsp;{{ user.email }}
+        </ion-item>
+        <ion-item>
+          <ion-icon name="call"></ion-icon> &nbsp;&nbsp;{{ user.phone }}
+        </ion-item>
+        <ion-item>
+          <ion-icon name="calendar"></ion-icon> &nbsp;&nbsp;{{ user.date | date: 'dd-MM-yyyy'}}
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

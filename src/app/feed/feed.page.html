@@ -1,0 +1,79 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Feed</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="openDrawer()">
+        <ion-icon name="menu"></ion-icon>
+        <ion-icon name="arrow-round-forward"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-list>
+    <ion-item>
+      <ion-label>Enable Radar</ion-label>
+      <ion-toggle [(ngModel)]="radar" (ionChange)="enableRadar()"></ion-toggle>
+    </ion-item>
+  </ion-list>
+
+  <ion-card padding>
+    <ion-item>
+      <ion-label position="floating">
+        <ion-icon name="chatbubbles"></ion-icon>
+        Share your status...
+      </ion-label>
+      <ion-textarea name="text" [(ngModel)]="text"></ion-textarea>
+    </ion-item>
+    <br>
+    <ion-button expand="block" fill="solid" (click)="addPost()">Post</ion-button>
+  </ion-card>
+  <hr>
+  <ion-card *ngFor="let post of posts; let i = index">
+    <!-- <img src="assets/img/nin-live.png" /> -->
+
+    <ion-card-content (click)="goToPost(post._id)">
+      <ion-row>
+        <ion-col size="3">
+          <ion-avatar class="feed-user-pic">
+            <img src="http://localhost:5000/{{post.userImage}}">
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="9">
+          <p>
+            {{ post.text }}
+          </p>
+          <small>
+            By {{ post.name }}
+          </small>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+    <ion-row padding>
+      <ion-col>
+        <div *ngIf="!likeCheck(post.likes)" (click)="likePost(post._id, i)">
+          <ion-icon name='thumbs-up'></ion-icon>
+          {{ post.likes.length }} Like
+        </div>
+        <div *ngIf="likeCheck(post.likes)" (click)="unlikePost(post._id, i)">
+          <ion-icon name='thumbs-up' color="primary"></ion-icon>
+          {{ post.likes.length }} Like
+        </div>
+      </ion-col>
+      <ion-col text-center>
+        <div (click)="goToPost(post._id)">
+          <ion-icon name="quote" color="primary"></ion-icon>
+          {{ post.comments.length }} Comment
+        </div>
+      </ion-col>
+      <ion-col text-center *ngIf="user_id == post.user">
+        <div (click)="deletePost(post._id, i)">
+          <ion-icon name="trash" color="danger"></ion-icon>
+          Delete
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+</ion-content>

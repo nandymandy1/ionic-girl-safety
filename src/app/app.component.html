@@ -1,3 +1,46 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <!--For Authenticated Routes only-->
+  <ion-split-pane contentId="menu-content" *ngIf="username">
+    <!--  our side menu  -->
+    <ion-menu contentId="menu-content" class="menu">
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>{{ username }}</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-list>
+          <ion-item href="/profile">
+            Profile
+          </ion-item>
+          <ion-item href="/list">
+            SOS List
+          </ion-item>
+          <ion-item href="/info">
+            Voilence
+          </ion-item>
+          <ion-item href="/harashment">
+            Rape Victims
+          </ion-item>
+          <ion-item href="/support">
+            Support Us
+          </ion-item>
+          <ion-item href="/helpline">
+            Helpline
+          </ion-item>
+          <ion-item (click)="logoutUser()">
+            Logout
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+    <!-- the main content -->
+    <ion-router-outlet (activate)="onActivate($event)" (deactivate)="onActivate($event)" id="menu-content">
+    </ion-router-outlet>
+  </ion-split-pane>
+  <!--For Authenticated Routes only-->
+  <!--For Unauthenticated Route only-->
+  <ion-router-outlet *ngIf="!username" (activate)="onActivate($event)" (deactivate)="onActivate($event)">
+  </ion-router-outlet>
+  <!--For Unauthenticated Route only-->
 </ion-app>

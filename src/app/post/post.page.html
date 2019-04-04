@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Post</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngIf="post != null">
+    <ion-card-content>
+      <p>
+        {{ post.text }}
+      </p>
+      <small>
+        By {{ post.name }}
+      </small>
+    </ion-card-content>
+    <ion-row padding>
+      <ion-col>
+        <div *ngIf="!likeCheck(post.likes) && post" (click)="likePost(post._id)">
+          <ion-icon name='thumbs-up'></ion-icon>
+          {{ post.length }} Like
+        </div>
+        <div *ngIf="likeCheck(post.likes) && post" (click)="unlikePost(post._id)">
+          <ion-icon name='thumbs-up' color="primary"></ion-icon>
+          {{ post.likes.length }} Like
+        </div>
+      </ion-col>
+      <ion-col text-center>
+        <div (click)="commentPost(post._id)" *ngIf="posts">
+          <ion-icon name="quote" color="primary"></ion-icon>
+          {{ post.comments.length }} Comment
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+
+  <ion-card *ngIf="post.comments.length">
+    <ion-item *ngFor="let comment of post.comments; let i = index">
+      <ion-avatar>
+        <img src="http://localhost:5000/{{comment.userImage}}">
+      </ion-avatar>
+      <ion-label>
+        <small>{{ comment.name.split(' ')[0] }}</small>
+        <p>{{ comment.text }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-card>
+
+</ion-content>
+<ion-footer padding>
+  <!--Comments-->
+
+  <ion-item>
+    <ion-label position="floating">
+      <ion-icon name="chatbubbles"></ion-icon>
+      Share your views on this...
+    </ion-label>
+    <ion-textarea name="text" rows="1" [(ngModel)]="text"></ion-textarea>
+  </ion-item>
+  <br>
+  <ion-button expand="block" fill="solid" size="small" (click)="addComment()">
+    <ion-icon name="send"></ion-icon> Comment
+  </ion-button>
+
+  <!--Comments-->
+</ion-footer>
