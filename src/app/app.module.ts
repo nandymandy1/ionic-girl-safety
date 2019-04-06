@@ -7,13 +7,14 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+// import { AgmCoreModule } from '@agm/core';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 // Services
 import { NetworkProvider } from './services/network.service';
 // import { ModalPageModule } from './modal/modal.module';
-import { PopoverPageModule } from './popover/popover.module';
+// import { PopoverPageModule } from './popover/popover.module';
 
 
 @NgModule({
@@ -21,8 +22,13 @@ import { PopoverPageModule } from './popover/popover.module';
   entryComponents: [],
   imports: [
     BrowserModule,
+    // AgmCoreModule.forRoot({
+    //   // please get your own API key here:
+    //   // https://developers.google.com/maps/documentation/javascript/get-api-key?hl=en
+    //   apiKey: 'AIzaSyCQ503aDlStVLkDiH1hVBivQz-YfnIBK4w'
+    // }),
     // ModalPageModule,
-    PopoverPageModule,
+    // PopoverPageModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     FormsModule,

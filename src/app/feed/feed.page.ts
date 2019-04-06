@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, ModalController } from '@ionic/angular';
 import { NetworkProvider } from '../services/network.service';
-import { ModalPage } from '../modal/modal.page';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { ModalPage } from '../modal/modal.page';
 
 @Component({
   selector: 'app-feed',
@@ -14,15 +14,16 @@ export class FeedPage implements OnInit {
   text = "";
   username: string;
   user_id: string;
+  urgent: Boolean = false;
 
-  radar: Boolean;
-  status = 1;
+  radar: Boolean = false;
+  status = 0;
 
   constructor(
     private util: NetworkProvider,
     private navCtrl: NavController,
-    private geoCords: Geolocation,
-    // private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private geoCords: Geolocation
   ) {
 
   }
@@ -39,9 +40,43 @@ export class FeedPage implements OnInit {
 
   getRadarStatus() {
     // write the logic for the radar status
-    this.util.getAuthData('users/radar-status').subscribe((res: any) => {
-      console.log(res);
-      this.radar = res.radar.active
+    this.util.getAuthData('users/radar-status').subscribe((res: Radar) => {
+      console.log(res.active);
+      if (res.active != null) {
+        if (res.active) {
+          this.status = 1;
+          this.radar = res.active;
+        }
+      }
+    });
+  }
+
+  // Enable the radar methods
+  radarSystem() {
+    if (this.status == 1) {
+      this.status = this.status + 1;
+    } else {
+      if (this.radar) {
+        this.enableRadar();
+      } else {
+        this.disableRadar();
+      }
+    }
+  }
+
+  // Enable the urgent mode
+  urgentCall() {
+    this.geoCords.getCurrentPosition().then((res) => {
+      let data = {
+        lat: res.coords.latitude,
+        lng: res.coords.longitude
+      };
+      this.util.postAuthData('users/urgent-mode', data).subscribe((res: any) => {
+        this.util.toastPresent(res.message, 'success');
+        console.log(res);
+      });
+    }).catch((error) => {
+      console.log('Error getting location', error);
     });
   }
 
@@ -76,10 +111,20 @@ export class FeedPage implements OnInit {
     });
   }
 
-  //comment Post
-  // commentPost(id, i, comments) {
-  //   this.presentModal(id, i, comments);
-  // }
+  // comment Post
+  commentPost(id, i, comments) {
+    this.presentModal(id, i, comments);
+  }
+
+  async presentModal(id, i, comments) {
+    const modal = await this.modalCtrl.create({
+      component: ModalPage,
+      componentProps: { value: id, index: i }
+    });
+    modal.onDidDismiss().then(() => {
+      this.loadPosts();
+    });
+  }
 
   // Post The Text
   addPost() {
@@ -106,14 +151,6 @@ export class FeedPage implements OnInit {
     return this.util.getusername();
   }
 
-  enableRadar() {
-    if (this.status == 1) {
-      this.status = this.status + 1;
-    } else {
-      this.triggerSOS();
-    }
-  }
-
   deletePost(id, i) {
     this.util.deleteAuthData(`posts/${id}`).subscribe((res: any) => {
       if (res.success) {
@@ -123,28 +160,40 @@ export class FeedPage implements OnInit {
     });
   }
 
-  // SOS Trigger
-  triggerSOS() {
-    console.log(this.radar);
+  // To Enable the radar system
+  enableRadar() {
     this.geoCords.getCurrentPosition().then((res) => {
-      if (this.radar == false) {
-        // trigger the radar inactive
-        this.util.postAuthData('users/radar-disable', {}).subscribe((res: any) => {
-          this.util.toastPresent('Radar turned off.', 'success');
-        });
-      } else {
-        // trigger the radar active 
-        let data = {
-          lat: res.coords.latitude,
-          lng: res.coords.longitude
-        };
-        this.util.postAuthData('users/radar-mode-enable', data).subscribe((res: any) => {
-          this.util.toastPresent(res.message, 'success');
-        });
-      }
+      let data = {
+        lat: res.coords.latitude,
+        lng: res.coords.longitude
+      };
+      this.util.postAuthData('users/radar-mode-enable', data).subscribe((res: any) => {
+        this.util.toastPresent(res.message, 'success');
+        console.log(res);
+      });
     }).catch((error) => {
       console.log('Error getting location', error);
     });
   }
 
+  // To Disable the radar system
+  disableRadar() {
+    if (!this.radar) {
+      this.util.postAuthData('users/radar-disable', {}).subscribe((res: any) => {
+        this.util.toastPresent('Radar turned off.', 'success');
+      });
+    }
+  }
+
+}
+
+
+interface Radar {
+  _id: String,
+  lat: Number,
+  lng: Number,
+  active: Boolean,
+  name: String,
+  user: String,
+  date: Date
 }

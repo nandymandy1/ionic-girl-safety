@@ -9,7 +9,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
 
   <ion-card>
     <ion-card-header>
@@ -36,4 +36,32 @@
       </ion-list>
     </ion-card-content>
   </ion-card>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="showAddContact()">
+    <ion-fab-button>
+      <ion-icon name="add-circle" color="white"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <div *ngIf="showFooter">
+    <ion-item>
+      <ion-label position="floating">
+        <ion-icon name="contact"></ion-icon>
+        Name
+      </ion-label>
+      <ion-input type="text" [(ngModel)]="contactName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">
+        <ion-icon name="call"></ion-icon>
+        Phone Number
+      </ion-label>
+      <ion-input type="text" [(ngModel)]="contactNumber"></ion-input>
+    </ion-item>
+    <br>
+    <ion-button expand="block" fill="solid" size="small" (click)="addContact()">
+      <ion-icon name="send"></ion-icon> Add Contact
+    </ion-button>
+  </div>
+
 </ion-content>

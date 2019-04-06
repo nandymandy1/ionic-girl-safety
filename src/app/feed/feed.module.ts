@@ -3,9 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
+
 import { IonicModule } from '@ionic/angular';
 
 import { FeedPage } from './feed.page';
+// import { ModalPageModule } from '../modal/modal.module';
 
 const routes: Routes = [
   {
@@ -16,10 +18,12 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
+    // ModalPageModule,
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+
   ],
   declarations: [FeedPage]
 })

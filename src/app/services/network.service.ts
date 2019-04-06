@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ToastController, NavController, LoadingController } from "@ionic/angular";
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from "rxjs/operators";
 import * as jwt_decode from 'jwt-decode';
 
@@ -17,6 +16,8 @@ export class NetworkProvider {
   ) {
 
   }
+
+
 
   /*********************** Show Toast */
   async toastPresent(message, cssProp) {

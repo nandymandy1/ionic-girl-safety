@@ -6,4 +6,17 @@
 
 <ion-content>
 
+  <ion-card *ngIf="sosList.length">
+    <ion-item *ngFor="let sos of sosList" (click)="navigateToMap(sos)">
+      <ion-avatar>
+        <img src="http://localhost:5000{{ sos.user.userImage }}">
+      </ion-avatar>
+      <ion-label>
+        <small>{{ sos.user.name }}</small>
+        <p>Latitude: {{ sos.lat }}</p>
+        <p>Longitude: {{ sos.lng }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-card>
+
 </ion-content>

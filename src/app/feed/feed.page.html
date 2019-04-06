@@ -15,7 +15,11 @@
   <ion-list>
     <ion-item>
       <ion-label>Enable Radar</ion-label>
-      <ion-toggle [(ngModel)]="radar" (ionChange)="enableRadar()"></ion-toggle>
+      <ion-toggle [(ngModel)]="radar" (ionChange)="radarSystem()"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>Help Me</ion-label>
+      <ion-toggle [(ngModel)]="urgent" (ionChange)="urgentCall()" color="danger"></ion-toggle>
     </ion-item>
   </ion-list>
 

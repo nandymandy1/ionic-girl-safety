@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { NetworkProvider } from '../services/network.service';
-import { PopoverPage } from '../popover/popover.page';
+// import { PopoverPage } from '../popover/popover.page';
 
 @Component({
   selector: 'app-profile',
@@ -11,7 +11,10 @@ import { PopoverPage } from '../popover/popover.page';
 })
 export class ProfilePage implements OnInit {
   user = {};
+  showFooter = false;
   imagePath = '';
+  contactNumber = "";
+  contactName = "";
   constructor(
     public popCtrl: PopoverController,
     private util: NetworkProvider,
@@ -34,18 +37,44 @@ export class ProfilePage implements OnInit {
     this.router.navigate(['/feed']);
   }
 
-  changeImage() {
-    console.log('Image Change');
-    this.presentPopover('changeImage');
+  showAddContact() {
+    this.showFooter = !this.showFooter;
   }
 
-  async presentPopover(ev: any) {
-    const popover = await this.popCtrl.create({
-      component: PopoverPage,
-      event: ev,
-      translucent: true
-    });
-    return await popover.present();
+  addContact() {
+    if (this.contactName != "" && this.contactNumber != "") {
+      let contact = {
+        name: this.contactName,
+        phone: this.contactNumber
+      };
+      this.util.postAuthData('users/add-contacts', contact).subscribe((res: any) => {
+        console.log(res);
+        if (res.success) {
+          this.util.toastPresent(res.message, 'success');
+          this.contactName = "";
+          this.showFooter = false;
+          this.contactNumber = "";
+        } else {
+          this.util.toastPresent("Unable to save the contact due to some techincal error.", 'danger');
+        }
+      });
+    } else {
+      this.util.toastPresent("Please Fill in all the credentials.", 'danger');
+    }
   }
+
+  // changeImage() {
+  //   console.log('Image Change');
+  //   this.presentPopover('changeImage');
+  // }
+
+  // async presentPopover(ev: any) {
+  //   const popover = await this.popCtrl.create({
+  //     component: PopoverPage,
+  //     event: ev,
+  //     translucent: true
+  //   });
+  //   return await popover.present();
+  // }
 
 }
