@@ -60,6 +60,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   { path: 'maps', loadChildren: './sos/map/map.module#MapPageModule' },
+  { path: 'intro', loadChildren: './static/intro/intro.module#IntroPageModule' },
 ];
 
 @NgModule({

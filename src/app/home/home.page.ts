@@ -46,5 +46,9 @@ export class HomePage {
     return this.util.getusername();
   }
 
+  intro() {
+    this.router.navigate(['/intro']);
+  }
+
 
 }

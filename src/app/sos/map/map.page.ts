@@ -22,7 +22,8 @@ export class MapPage implements OnInit {
   constructor(
     private util: NetworkProvider,
     private geoCords: Geolocation,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.route.queryParams.subscribe(params => {
       this.markers.push({
@@ -65,6 +66,10 @@ export class MapPage implements OnInit {
   // get the sos call based on the is
   getSOSDetails() {
 
+  }
+
+  goBack() {
+    this.router.navigate(['/list']);
   }
 
 }

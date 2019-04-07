@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-info',
-  templateUrl: './info.page.html',
-  styleUrls: ['./info.page.scss'],
+  selector: 'app-intro',
+  templateUrl: './intro.page.html',
+  styleUrls: ['./intro.page.scss'],
 })
-export class InfoPage implements OnInit {
+export class IntroPage implements OnInit {
 
   constructor(
     private router: Router
@@ -14,7 +14,6 @@ export class InfoPage implements OnInit {
 
   ngOnInit() {
   }
-
   goBack() {
     this.router.navigate(['/feed']);
   }

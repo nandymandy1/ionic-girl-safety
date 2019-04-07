@@ -6,7 +6,7 @@ import * as jwt_decode from 'jwt-decode';
 
 @Injectable()
 export class NetworkProvider {
-  BASEURL = 'http://localhost:5000/api/';
+  BASEURL = '/api/';
 
   constructor(
     private toast: ToastController,

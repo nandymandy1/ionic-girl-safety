@@ -45,5 +45,9 @@ export class ListPage implements OnInit {
     this.router.navigate(['/maps'], navObj);
   }
 
+  goBack() {
+    this.router.navigate(['/feed']);
+  }
+
 
 }
